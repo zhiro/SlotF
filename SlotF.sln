@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlotF", "SlotF\SlotF.csproj", "{68E467BF-B799-4499-9E2A-7569E5CCD298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlotF_Tests", "SlotF_Tests\SlotF_Tests.csproj", "{5C5EDB4A-483B-4D91-8D47-9CD874BD8E4F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68E467BF-B799-4499-9E2A-7569E5CCD298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E467BF-B799-4499-9E2A-7569E5CCD298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E467BF-B799-4499-9E2A-7569E5CCD298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E467BF-B799-4499-9E2A-7569E5CCD298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C5EDB4A-483B-4D91-8D47-9CD874BD8E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C5EDB4A-483B-4D91-8D47-9CD874BD8E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C5EDB4A-483B-4D91-8D47-9CD874BD8E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C5EDB4A-483B-4D91-8D47-9CD874BD8E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
