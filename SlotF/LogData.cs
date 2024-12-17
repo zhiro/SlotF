@@ -1,7 +1,5 @@
 namespace SlotF;
 
-public class ResultData
-{
     public class LogData
     {
         public int Spin { get; set; }
@@ -17,4 +15,3 @@ public class ResultData
             Stats = stats;
         }
     }
-}

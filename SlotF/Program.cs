@@ -10,56 +10,75 @@ class Program
         long balance = 0;
         bool restart = true;
         bool addBalance = true;
-        printUI printUi = new printUI();
         
+        var logData = new LogData(0, 0,0, ConstDataProvider.EmptyLogResult());
+        RunSlots slotMachine = new RunSlots();
+        PrintUi printUi = new PrintUi();
         
-        var logData = new ResultData.LogData(0, 0,0, ConstDataProvider.EmptyLogResult());
         
         while (restart)
         {
             if (addBalance)
             {
-                Console.WriteLine("Add balance:");
-                balance += Convert.ToInt64(Console.ReadLine());
+                balance += GetValidLongInput("Add balance:");
             }
-
-            Console.WriteLine("Bet:");
-            long bet = Convert.ToInt64(Console.ReadLine());
-            Console.WriteLine("Number of spins");
-            long spins = Convert.ToInt64(Console.ReadLine());
+            long bet = GetValidLongInput("Bet:");
+            long spins = GetValidLongInput("Number of spins:");
             
             Console.WriteLine("==========================================");
-
-            ConstDataProvider dataProvider = new ConstDataProvider();
             
-            RunSlots slotMachine = new RunSlots();
-            balance = slotMachine.Run(bet, spins, balance, dataProvider.GetColumnOneValues(), dataProvider.GetColumnTwoValues(), dataProvider.GetColumnThreeValues(), logData);
-            // balance = Result.Balance;
-            Console.WriteLine($"Current balance: {balance}, do you wish to payout? (Y/N)");
-            string input = Console.ReadLine()?.ToUpper()!;
-            if (input == "Y")
+            balance = slotMachine.Run(bet, spins, balance, logData);
+            
+            
+            restart = GetValidYesNoInput($"Current balance: {balance}, do you wish to continue rolling? (Y/N)");
+            if (!restart)
             {
-                restart = false;
-                printUI.PrintLogStats(logData);
+                PrintUi.PrintLogStats(logData);
+                Console.WriteLine("==========================================");
                 Console.WriteLine("Final payout: " + balance);
             }
             else
             {
-                if (balance <= 0)
-                {
-                    addBalance = true;
-                }
-                else
-                {
-                    // Always Require funds if balance is 0
-                    Console.WriteLine("Do you wish to add additional funds? (Y/N)");
-                    string input2 = Console.ReadLine()?.ToUpper()!;
-                    if (input2 == "N")
-                    {
-                        addBalance = false;
-                    }
-                }
+                addBalance = balance <= 0 || GetValidYesNoInput("Do you wish to add additional funds? (Y/N)");
             }
+            
+        }
+    }
+
+    static long GetValidLongInput(string prompt)
+    {
+        long number;
+        while (true)
+        {
+            Console.WriteLine(prompt);
+            string input = Console.ReadLine()!;
+            
+            if (long.TryParse(input, out number))
+            {
+                return number;
+            }
+            Console.WriteLine("Invalid input. Please enter a valid number.");
+        }
+        
+    }
+
+    static bool GetValidYesNoInput(string prompt)
+    {
+        while (true)
+        {
+            Console.WriteLine(prompt);
+            string input = Console.ReadLine()?.Trim().ToUpper()!;
+        
+            if (input == "Y")
+            {
+                return true;
+            }
+            if (input == "N")
+            {
+                return false;
+            }
+
+            Console.WriteLine("Invalid input. Please enter 'Y' or 'N'.");
         }
     }
 }

@@ -2,16 +2,16 @@ namespace SlotF;
 
 public class RunSlots
 {
-    private static readonly Random Random = new Random();
     private static readonly ConstDataProvider DataProvider = new ConstDataProvider();
     private static readonly Dictionary<string, int> Paytable = DataProvider.GetPaytable();
     
-    public long Run(long bet, long spins, long balance, string[] colOne, string[] colTwo, string[] colThree, ResultData.LogData log)
+    public long Run(long bet, long spins, long balance, LogData log)
     {
-        printUI printUi = new printUI();
+        PrintUi printUi = new PrintUi();
         
         for (int spin = 1; spin <= spins; spin++)
         {
+            
             long previousBalance = balance;
             balance -= bet;
             if (balance < 0)
@@ -20,12 +20,9 @@ public class RunSlots
                 balance = previousBalance;
                 break;
             }
-            string colOneValue = GetRandomColumnValue(colOne);
-            string colTwoValue = GetRandomColumnValue(colTwo);  
-            string colThreeValue = GetRandomColumnValue(colThree);
-            
-            string[] columns = { colOneValue, colTwoValue, colThreeValue };
-            string matchValue = GetValueIfMatchingColumns(columns);
+
+            string[] randomValues = SlotRow.GetRandomColumnValues();
+            string matchValue = GetValueIfMatchingColumns(randomValues);
 
             long coef = 0;
             if (matchValue != "")
@@ -34,7 +31,7 @@ public class RunSlots
             }
             long win = bet * coef;
             balance += win;
-            printUi.PrintFormattedBox(colOneValue, colTwoValue, colThreeValue);
+            printUi.PrintFormattedBox(randomValues);
             
             Console.WriteLine("Spin: " + spin +
                               ", Win: " + win +
@@ -47,21 +44,11 @@ public class RunSlots
             log.Bet += bet;
             log.Win += win;
             
-            UpdateStats(log.Stats, matchValue, win);    
-            
-            
+            UpdateStats(log.Stats, matchValue, win);
         }
-        
         return balance;
     }
     
-    
-    static string GetRandomColumnValue(string[] columnValues)
-    {
-        int randomIndex = Random.Next(columnValues.Length);
-        return columnValues[randomIndex];
-    }
-
     public static string GetValueIfMatchingColumns(string[] columns)
     {
         if (columns.Contains("Wild"))
@@ -88,11 +75,7 @@ public class RunSlots
     {
         return Paytable[value];
     }
-
-    static void AddToLog(int spin, long bet, Dictionary<string, (int,int)> stats)
-    {
-        
-    }
+    
 
     private void UpdateStats(Dictionary<string, (int, long)> stats, string match, long winAmount)
     {
